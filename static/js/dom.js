@@ -40,4 +40,14 @@ export let dom = {
         // it adds necessary event listeners also
     },
     // here comes more features
+    changeColumnName: function () {
+        let columnTitle = document.querySelectorAll('.board-column-title');
+        for (let title of columnTitle){
+            title.addEventListener('dblclick', function (event) {
+                console.log('Tibi egy nulla')
+            })
+        }
+
+    }
 };
+
