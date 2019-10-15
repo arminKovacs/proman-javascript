@@ -16,12 +16,11 @@ export let dom = {
         // it adds necessary event listeners also
 
         let boardList = '';
-
         for (let board of boards) {
             boardList += `
                 <li class="board">
-                    <section class="board">
-                        <div class="board-header"><span class="board-title">${board.title}</span>
+                    <section class="board" id="${board.board_id}">
+                        <div class="board-header"><span class="board-title">${board.board_title}</span>
                             <button class="board-add">Add Card</button>
                             <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                         </div>
@@ -44,7 +43,6 @@ export let dom = {
                     </section>
                 </li>`;
         }
-        console.log(boardList)
         const outerHtml = `
             <ul class="board-container">
                 ${boardList}

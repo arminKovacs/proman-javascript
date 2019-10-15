@@ -15,7 +15,10 @@ def get_card_status(status_id):
 
 @database_common.connection_handler
 def get_boards(cursor):
-    cursor.execute("""SELECT * FROM boards""")
+    cursor.execute("""SELECT boards.id as board_id, boards.title as board_title, cards.id AS card_id, 
+                        cards.board_id AS card_board_id, cards.title AS card_title, cards.status_id, cards.order_id
+                      FROM boards
+                      JOIN cards ON (boards.id=cards.board_id)""")
     data = cursor.fetchall()
 
     return data
