@@ -1,4 +1,4 @@
-from flask import jsonify, Flask, render_template, url_for, request, redirect
+from flask import jsonify, Flask, render_template, url_for, request, redirect, session
 from util import json_response
 
 import data_handler
@@ -12,10 +12,9 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    global USER_LOGGED_IN
     logout = request.args.get("logout")
     if logout:
-        USER_LOGGED_IN = ""
+        session.clear()
     return render_template('/index.html')
 
 
@@ -25,7 +24,8 @@ def get_boards():
     """
     All the boards
     """
-    return data_handler.get_boards()
+    user = get_user()
+    return data_handler.get_boards(user)
 
 
 @app.route("/get-cards/<int:board_id>")
@@ -38,18 +38,13 @@ def get_cards_for_board(board_id: int):
     return data_handler.get_cards_for_board(board_id)
 
 
-USER_LOGGED_IN = ""
-
-
 @app.route('/login', methods=["GET", "POST"])
 def route_login():
-    global USER_LOGGED_IN
     if request.method == "POST":
         user_name = request.form["userName"]
         password = request.form["password"]
         if data_handler.check_user_login(user_name, password):
-            USER_LOGGED_IN = user_name
-            print("correct login details")
+            session["user"] = user_name
 
             return redirect(url_for("index"))
         else:
@@ -69,9 +64,18 @@ def route_registration():
     return render_template('login.html', page_type="Register")
 
 
+def get_user():
+    if session.get("user"):
+        user = session["user"]
+    else:
+        user = ""
+    return user
+
+
 @app.route('/get_current_user')
 def get_current_user():
-    return jsonify(username=USER_LOGGED_IN)
+    username = get_user()
+    return jsonify(username=username)
 
 
 def main():
