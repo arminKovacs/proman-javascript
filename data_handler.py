@@ -73,3 +73,12 @@ def save_user_details(cursor, user_name, password):
                    """).format(username=sql.Literal(user_name),
                                password=sql.Literal(hashed_password))
     )
+
+@database_common.connection_handler
+def add_new_board_to_db(cursor, board_title):
+    cursor.execute(
+        sql.SQL("""INSERT INTO boards(title)
+                   VALUES ({board_title})
+        """).format(board_title=sql.Literal(board_title))
+    )
+
