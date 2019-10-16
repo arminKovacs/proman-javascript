@@ -76,7 +76,6 @@ def save_user_details(cursor, user_name, password):
 
 @database_common.connection_handler
 def insert_new_board(cursor, board_title):
-    print(board_title)
     cursor.execute(
         sql.SQL("""INSERT INTO boards(title)
                    VALUES ({board_title});

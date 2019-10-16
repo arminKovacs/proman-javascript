@@ -42,10 +42,11 @@ def get_cards_for_board(board_id: int):
 
 
 @app.route("/create-new-board", methods=['GET', 'POST'])
-def get_latest_board_id():
+def create_new_board():
     if request.method == 'POST':
         new_board_title = json.loads(request.data)
-        return data_handler.insert_new_board(new_board_title)
+        data_handler.insert_new_board(new_board_title)
+    return render_template('/index.html')
 
 
 @app.route('/login', methods=["GET", "POST"])

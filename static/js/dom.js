@@ -7,11 +7,9 @@ export let dom = {
         createBoardBtn.addEventListener('click', function () {
             dataHandler.getBoards(function (boards) {
                 let newBoardTitle = 'Board ' + (boards.length + 1);
-                dataHandler.createNewBoard(newBoardTitle, dataHandler.getBoards(function (boards){
-
-                }))
+                dataHandler.createNewBoard(newBoardTitle)
             });
-        })
+        });
         $("#logout").on("click", function () {
         sessionStorage.clear();
         })
@@ -34,36 +32,32 @@ export let dom = {
         let boardList = '';
         for (let board of boards) {
             boardList += `
-                <section class="board">
+               <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <button class="board-add">Add Card</button>
                         <button id="toggle${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div id="board-body${board.id}">
-                    <div class="board-columns">
-                        <div class="board-column">
-                            <div class="board-column-title">New</div>
-                            <div class="board-column-content" id = "board-id-${board.id}-status-id-0">
+                        <div class="board-columns">
+                            <div class="board-column">
+                                <div class="board-column-title">New</div>
+                                <div class="board-column-content" id="board-id-${board.id}-status-id-0"></div>
                             </div>
-                    </div>
-                    <div class="board-column">
-                        <div class="board-column-title">In Progress</div>
-                        <div class="board-column-content" id = "board-id-${board.id}-status-id-1">
+                            <div class="board-column">
+                                <div class="board-column-title">In Progress</div>
+                                <div class="board-column-content" id="board-id-${board.id}-status-id-1"></div>
+                            </div>
+                            <div class="board-column">
+                                <div class="board-column-title">Testing</div>
+                                <div class="board-column-content" id="board-id-${board.id}-status-id-2"></div>
+                            </div>
+                            <div class="board-column">
+                                <div class="board-column-title">Done</div>
+                                <div class="board-column-content" id="board-id-${board.id}-status-id-3"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="board-column">
-                        <div class="board-column-title">Testing</div>
-                        <div class="board-column-content" id = "board-id-${board.id}-status-id-2">
-                        </div>
-                    </div>
-                    <div class="board-column">
-                        <div class="board-column-title">Done</div>
-                        <div class="board-column-content" id = "board-id-${board.id}-status-id-3">
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>`;
+                </section>`;
             dom.loadCards(board.id);
 
         }
