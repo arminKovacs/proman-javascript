@@ -26,22 +26,14 @@ export let dom = {
                         </div>
                         <div class="board-columns">
                             <div class="board-column">
-                                <div class="board-column-title"></div>
-                                <div class="board-column-content">
-                                    <div class="card">
-                                        <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                                        <div class="card-title">Card 1</div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-                                        <div class="card-title">Card 2</div>
-                                    </div>
-                                </div>
+                                <div class="board-column-title">Status New</div>
+                                    <div class="board-column-content"></div>
                             </div>
-                            
                         </div>
                     </section>
                 </li>`;
+            dom.loadCards(board.board_id)
+            console.log(board.board_id)
         }
         const outerHtml = `
             <ul class="board-container">
@@ -51,13 +43,33 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
+        dataHandler.getCardsByBoardId(boardId, function (cards) {
+            console.log(cards)
+                dom.showCards(cards);
+            })
     },
+
+
     showCards: function (cards) {
-        // shows the cards of a board
-        // it adds necessary event listeners also
+            // shows the cards of a board
+            // it adds necessary event listeners also
+            let cardList = '';
+            for (let card of cards) {
+                console.log(card)
+                cardList += `
+            <div class="card">
+                <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                <div class="card-title">${card.title}</div>
+            </div>`;
+            }
+
+        let cardsToShow = document.querySelector('${card.board_id').querySelector('.board-column-content');
+        cardsToShow.insertAdjacentHTML("beforeend", cardList);
+
     },
     // here comes more features
 };

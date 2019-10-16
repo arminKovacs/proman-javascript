@@ -11,7 +11,6 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    get_boards()
     return render_template('/index.html')
 
 
