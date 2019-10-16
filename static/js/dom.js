@@ -11,14 +11,15 @@ export let dom = {
             });
         });
         $("#logout").on("click", function () {
-        sessionStorage.clear();
-        })
-    // let toggles = document.querySelectorAll(".board-toggle");
-    // console.log(toggles)
-    // toggles.addEventListener("click", function () {
-    //     this.querySelector(".board-body").fadeToggle();
-    //     console.log(this)
-    // })
+            sessionStorage.clear();
+        });
+        $("#nav-container").on("mouseleave", function (navbar) {
+            $("#nav-container").animate({opacity: 0})
+        });
+        $("#nav-container").on("mouseenter", function (navbar) {
+            $("#nav-container").animate({opacity: 0.7})
+
+        });
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -79,7 +80,7 @@ export let dom = {
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        dataHandler.getCardsByBoardId(boardId,function (cards) {
+        dataHandler.getCardsByBoardId(boardId, function (cards) {
             dom.showCards(cards);
         });
     },
@@ -91,7 +92,7 @@ export let dom = {
                     <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
                     <div class="card-title">${card.title}</div>
                 </div>
-            `;
+                `;
             parentBoardColumn.insertAdjacentHTML('beforeend', cardTemplate);
         }
         // shows the cards of a board
