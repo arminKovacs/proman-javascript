@@ -5,13 +5,14 @@ export let dom = {
     init: function () {
     $("#logout").on("click", function () {
         sessionStorage.clear();
-        })
-    // let toggles = document.querySelectorAll(".board-toggle");
-    // console.log(toggles)
-    // toggles.addEventListener("click", function () {
-    //     this.querySelector(".board-body").fadeToggle();
-    //     console.log(this)
-    // })
+        });
+    $("#nav-container").on("mouseleave", function (navbar) {
+        $("#nav-container").animate({opacity:0})
+        });
+    $("#nav-container").on("mouseenter", function (navbar) {
+        $("#nav-container").animate({opacity:0.8})
+
+        });
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
