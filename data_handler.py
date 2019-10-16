@@ -1,6 +1,7 @@
 import persistence
 import database_common
 from psycopg2 import sql
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 def get_card_status(status_id):
@@ -14,34 +15,64 @@ def get_card_status(status_id):
 
 
 @database_common.connection_handler
-def get_boards(cursor):
-    cursor.execute("""SELECT * FROM boards
-                      """)
-    data = cursor.fetchall()
+def get_boards(cursor, user):
+    if user:
+        cursor.execute(
+            sql.SQL("""SELECT id FROM users
+                      WHERE username = {username};
+                      """).format(username=sql.Literal(user)))
+        actual_user_id = cursor.fetchone()["id"]
+    else:
+        actual_user_id = "999999999"
 
+    cursor.execute(
+        sql.SQL("""SELECT * FROM boards
+                   WHERE user_id ISNULL OR user_id = {userID};
+                   """).format(userID=sql.Literal(actual_user_id))
+    )
+    data = cursor.fetchall()
     return data
-    # return persistence.get_boards(force=True)
 
 
 @database_common.connection_handler
 def get_cards_for_board(cursor, board_id):
     cursor.execute(
         sql.SQL("""SELECT * FROM cards
-                   WHERE board_id = {board_id}
+                   WHERE board_id = {board_id};
                        """).format(board_id=sql.Literal(board_id)))
     cards_data = cursor.fetchall()
 
     return cards_data
 
-    #persistence.clear_cache()
-    #all_cards = persistence.get_cards()
-    #matching_cards = []
-    #for card in all_cards:
-    #    if card['board_id'] == str(board_id):
-    #        card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
-    #        matching_cards.append(card)
-    #return matching_cards
 
+def check_user_login(user_name, user_input_password):
+    stored_password = get_user_stored_password(user_name)
+    if check_password_hash(stored_password, user_input_password):
+        return True
+    else:
+        return False
+
+
+@database_common.connection_handler
+def get_user_stored_password(cursor, user_name):
+    cursor.execute(
+        sql.SQL("""SELECT password FROM users
+                   WHERE username = {username}
+                   """).format(username=sql.Literal(user_name))
+    )
+    data = cursor.fetchone()
+    return data['password']
+
+
+@database_common.connection_handler
+def save_user_details(cursor, user_name, password):
+    hashed_password = generate_password_hash(password, salt_length=8)
+    cursor.execute(
+        sql.SQL("""INSERT INTO users (username, password)
+                   VALUES ({username}, {password});
+                   """).format(username=sql.Literal(user_name),
+                               password=sql.Literal(hashed_password))
+    )
 
 @database_common.connection_handler
 def insert_new_board(cursor, board_title):

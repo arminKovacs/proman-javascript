@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div id="register"></div>
     <div id="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="">ProMan</a>
@@ -9,34 +8,26 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="">Register<span class="sr-only">(current)</span></a>
+                        <a id="registration" class="nav-link" href="{{ url_for('route_registration') }}">Register<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Login<span class="sr-only">(current)</span></a>
+                        <a id="login" class="nav-link" href="{{ url_for('route_login') }}">Login<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a id="logout" class="nav-link" href="{{ url_for('index', logout='True') }}" hidden>Logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="create-board">Create new board</a>
                     </li>
                 </ul>
+                <span id="navbar-text" class="navbar-text">Please sign in/up for more options!
+                </span>
             </div>
         </nav>
         <h1>ProMan</h1>
         <!-- Emmet: .board-container>section.board*3>.board-header>(span.board-title{Board $}+button.board-add{Add Card}+button.board-toggle>i.fas.fa-chevron-down)^.board-columns>((.board-column>.board-column-title{New}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))+(.board-column>.board-column-title{In Progress}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))+(.board-column>.board-column-title{Testing}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))+(.board-column>.board-column-title{Done}+.board-column-content>.card*5>(.card-remove>i.fas.fa-trash-alt^.card-title{Card $}))) -->
         <div id="boards"></div>
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-                crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-                crossorigin="anonymous"></script>
     </div>
 {% endblock %}
