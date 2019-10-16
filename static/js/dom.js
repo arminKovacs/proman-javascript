@@ -4,8 +4,14 @@ import {dataHandler} from "./data_handler.js";
 export let dom = {
     init: function () {
     $("#logout").on("click", function () {
-        sessionStorage.clear()
+        sessionStorage.clear();
         })
+    // let toggles = document.querySelectorAll(".board-toggle");
+    // console.log(toggles)
+    // toggles.addEventListener("click", function () {
+    //     this.querySelector(".board-body").fadeToggle();
+    //     console.log(this)
+    // })
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -22,8 +28,9 @@ export let dom = {
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <button class="board-add">Add Card</button>
-                        <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                        <button id="toggle${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
+                    <div id="board-body${board.id}">
                     <div class="board-columns">
                         <div class="board-column">
                             <div class="board-column-title">New</div>
@@ -45,9 +52,11 @@ export let dom = {
                         <div class="board-column-content" id = "board-id-${board.id}-status-id-3">
                         </div>
                     </div>
+                    </div>
                 </div>
             </section>`;
             dom.loadCards(board.id);
+
         }
         const outerHtml = `
             <ul class="board-container">
@@ -57,6 +66,13 @@ export let dom = {
 
         let boardsContainer = document.querySelector('#boards');
         boardsContainer.insertAdjacentHTML("beforeend", outerHtml);
+        for (let board of boards) {
+            let toggle = document.getElementById(`toggle${board.id}`);
+            toggle.addEventListener("click", function () {
+                let boardBody = document.getElementById(`board-body${board.id}`);
+                $(`#board-body${board.id}`).fadeToggle();
+            })
+        }
     },
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
