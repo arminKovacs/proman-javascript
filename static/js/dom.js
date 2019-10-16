@@ -3,7 +3,16 @@ import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     init: function () {
-
+        let createBoardBtn = document.getElementById('create-board');
+        createBoardBtn.addEventListener('click', function () {
+            dataHandler.getBoards(function (boards) {
+                let newBoardTitle = 'Board ' + (boards.length + 1);
+                console.log(newBoardTitle);
+                dataHandler.createNewBoard(newBoardTitle, function (response) {
+                    console.log(response);
+                })
+            });
+        })
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
