@@ -1,5 +1,6 @@
 from flask import jsonify, Flask, render_template, url_for, request, redirect, session
 from util import json_response
+import psycopg2
 
 import data_handler
 
@@ -59,7 +60,11 @@ def route_registration():
     if request.method == "POST":
         user_name = request.form["userName"]
         password = request.form["password"]
-        data_handler.save_user_details(user_name, password)
+        try:
+            data_handler.save_user_details(user_name, password)
+        except:
+            error_message = "Username already exist. Please choose an other one!"
+            return render_template('login.html', page_type="Register", error_message=error_message)
         return redirect(url_for("index"))
     return render_template('login.html', page_type="Register")
 
