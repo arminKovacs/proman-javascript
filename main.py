@@ -31,6 +31,15 @@ def get_boards():
     return data_handler.get_boards(user)
 
 
+@app.route("/get-board", methods=['GET', 'POST'])
+@json_response
+def get_board():
+    if request.method == 'POST':
+        new_board_id = json.loads(request.data)['max']
+        return data_handler.get_board(int(new_board_id))
+    return render_template('/index.html')
+
+
 @app.route("/get-cards/<int:board_id>")
 @json_response
 def get_cards_for_board(board_id: int):
@@ -39,6 +48,12 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_handler.get_cards_for_board(board_id)
+
+
+@app.route("/get-latest-board-id")
+@json_response
+def get_latest_board_id():
+    return data_handler.get_latest_board_id()
 
 
 @app.route("/create-new-board", methods=['GET', 'POST'])

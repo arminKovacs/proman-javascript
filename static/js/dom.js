@@ -7,7 +7,12 @@ export let dom = {
         createBoardBtn.addEventListener('click', function () {
             dataHandler.getBoards(function (boards) {
                 let newBoardTitle = 'Board ' + (boards.length + 1);
-                dataHandler.createNewBoard(newBoardTitle)
+                dataHandler.createNewBoard(newBoardTitle, function (newBoardId) {
+                    dataHandler.getBoard(newBoardId, function (boardToShow) {
+                            console.log(boardToShow);
+                        dom.showBoards(boardToShow);
+                    })
+                });
             });
         });
         $("#logout").on("click", function () {

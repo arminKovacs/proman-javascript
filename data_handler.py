@@ -35,6 +35,28 @@ def get_boards(cursor, user):
 
 
 @database_common.connection_handler
+def get_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""SELECT * FROM boards
+                   WHERE id = {board_id}
+                """).format(board_id=sql.Literal(board_id)))
+
+    board = cursor.fetchall()
+
+    return board
+
+
+@database_common.connection_handler
+def get_latest_board_id(cursor):
+    cursor.execute(
+        sql.SQL("""SELECT MAX(id) FROM boards
+                """)
+    )
+    id = cursor.fetchone()
+
+    return id
+
+@database_common.connection_handler
 def get_cards_for_board(cursor, board_id):
     cursor.execute(
         sql.SQL("""SELECT * FROM cards
