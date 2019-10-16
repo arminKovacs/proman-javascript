@@ -37,3 +37,7 @@ INSERT INTO statuses VALUES (0, 'new');
 INSERT INTO statuses VALUES (1, 'in progress');
 INSERT INTO statuses VALUES (2, 'testing');
 INSERT INTO statuses VALUES (3, 'done');
+
+SELECT pg_catalog.setval('boards_id_seq', 1, true);
+SELECT pg_catalog.setval('cards_id_seq', 1, true);
+SELECT pg_catalog.setval('statuses_id_seq', 1, true);

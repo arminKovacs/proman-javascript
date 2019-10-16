@@ -42,3 +42,11 @@ def get_cards_for_board(cursor, board_id):
     #        matching_cards.append(card)
     #return matching_cards
 
+
+@database_common.connection_handler
+def insert_new_board(cursor, board_title):
+    print(board_title)
+    cursor.execute(
+        sql.SQL("""INSERT INTO boards(title)
+                   VALUES ({board_title});
+    """).format(board_title=sql.Literal(board_title)))

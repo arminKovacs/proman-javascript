@@ -7,10 +7,9 @@ export let dom = {
         createBoardBtn.addEventListener('click', function () {
             dataHandler.getBoards(function (boards) {
                 let newBoardTitle = 'Board ' + (boards.length + 1);
-                console.log(newBoardTitle);
-                dataHandler.createNewBoard(newBoardTitle, function (response) {
-                    console.log(response);
-                })
+                dataHandler.createNewBoard(newBoardTitle, dataHandler.getBoards(function (boards){
+
+                }))
             });
         })
     },
