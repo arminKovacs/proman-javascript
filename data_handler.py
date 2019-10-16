@@ -41,3 +41,13 @@ def get_cards_for_board(cursor, board_id):
     #        card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
     #        matching_cards.append(card)
     #return matching_cards
+
+
+@database_common.connection_handler
+def add_new_board_to_db(cursor, board_title):
+    cursor.execute(
+        sql.SQL("""INSERT INTO boards(title)
+                   VALUES ({board_title})
+        """).format(board_title=sql.Literal(board_title))
+    )
+

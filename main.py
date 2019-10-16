@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from util import json_response
 
 import data_handler
@@ -32,6 +32,12 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
     return data_handler.get_cards_for_board(board_id)
+
+
+@app.route("/create-new-board", methods=['GET', 'POST'])
+def create_new_board():
+    board_title = request.form['board-name']
+    return data_handler.add_new_board_to_db(board_title)
 
 
 def main():
