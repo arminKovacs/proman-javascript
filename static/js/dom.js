@@ -3,7 +3,9 @@ import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     init: function () {
-
+    $("#logout").on("click", function () {
+        sessionStorage.clear()
+        })
     },
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -14,7 +16,6 @@ export let dom = {
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
-
         let boardList = '';
         for (let board of boards) {
             boardList += `

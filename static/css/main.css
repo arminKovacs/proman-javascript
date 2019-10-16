@@ -1,0 +1,32 @@
+
+#background {
+    margin-top: 100px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+
+}
+
+#loginBody {
+    border-radius: 10px;
+    /*padding-top: 100px;*/
+    display: block;
+    height: 500px;
+    max-width: 30%;
+    margin: auto;
+}
+
+#userName {
+    border-radius: 5px;
+    margin-top: 50px;
+}
+
+#password {
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.loginbtns {
+    margin-top: 50px;
+    width: 100px;
+}

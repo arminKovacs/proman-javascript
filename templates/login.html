@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="background">
+<div id="loginBody">
+    <h1 id="loginTitle">{{ page_type }} page</h1>
+    <br>
+    <div id="error" style="color: orangered">{{ error_message }}</div>
+    <form method="POST" action="{% if page_type == 'Login' %}{{ url_for('route_login') }}
+                                {% else %}{{ url_for('route_registration')}}{% endif %}" id="loginForm">
+        <p><label for="userName">User name:</label>
+            <input id="userName" name="userName" type="text" required placeholder="Enter your username!" minlength="6"></p>
+        <p><label for="password">Password:  </label>
+            <input id="password" name="password" type="password" required placeholder="Enter your password!" minlength="6"></p>
+        </p>
+        <p>
+            <button type="submit" id="loginSubmit" class="loginbtns btn btn-success">{{ page_type }}</button>
+            <button type="button" onclick="history.back()" class="loginbtns btn btn-dark">Close</button>
+        </p>
+    </form>
+</div>
+</div>
+{% endblock %}
