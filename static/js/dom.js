@@ -10,7 +10,7 @@ export let dom = {
         $("#nav-container").animate({opacity:0})
         });
     $("#nav-container").on("mouseenter", function (navbar) {
-        $("#nav-container").animate({opacity:0.8})
+        $("#nav-container").animate({opacity:0.7})
 
         });
     },
