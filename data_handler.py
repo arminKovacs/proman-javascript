@@ -1,6 +1,6 @@
 import persistence
 import database_common
-import psycopg2
+from psycopg2 import sql
 
 
 def get_card_status(status_id):
@@ -15,22 +15,29 @@ def get_card_status(status_id):
 
 @database_common.connection_handler
 def get_boards(cursor):
-    cursor.execute("""SELECT boards.id as board_id, boards.title as board_title, cards.id AS card_id, 
-                        cards.board_id AS card_board_id, cards.title AS card_title, cards.status_id, cards.order_id
-                      FROM boards
-                      JOIN cards ON (boards.id=cards.board_id)""")
+    cursor.execute("""SELECT * FROM boards
+                      """)
     data = cursor.fetchall()
 
     return data
     # return persistence.get_boards(force=True)
 
 
-def get_cards_for_board(board_id):
-    persistence.clear_cache()
-    all_cards = persistence.get_cards()
-    matching_cards = []
-    for card in all_cards:
-        if card['board_id'] == str(board_id):
-            card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
-            matching_cards.append(card)
-    return matching_cards
+@database_common.connection_handler
+def get_cards_for_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""SELECT * FROM cards
+                   WHERE board_id = {board_id}
+                       """).format(board_id=sql.Literal(board_id)))
+    cards_data = cursor.fetchall()
+
+    return cards_data
+
+    #persistence.clear_cache()
+    #all_cards = persistence.get_cards()
+    #matching_cards = []
+    #for card in all_cards:
+    #    if card['board_id'] == str(board_id):
+    #        card['status_id'] = get_card_status(card['status_id'])  # Set textual status for the card
+    #        matching_cards.append(card)
+    #return matching_cards
