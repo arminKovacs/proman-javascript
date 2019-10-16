@@ -49,7 +49,7 @@ def route_login():
             return redirect(url_for("index"))
         else:
             error_message = "Wrong login details. Please try again."
-            return render_template('login.html', error_message=error_message)
+            return render_template('login.html', page_type="Login", error_message=error_message)
 
     return render_template('login.html', page_type="Login")
 
