@@ -6,10 +6,17 @@
     --status-4: #085900;
 }
 
+html {
+}
+
 body{
-    min-width: 620px;
-    background: #ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png);
     font-family: sans-serif;
+    background: url("../images/19113457-computer-robot-background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow-x: hidden;
 }
 
 h1, .board-title, .board-column-title{

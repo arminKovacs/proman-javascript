@@ -1,4 +1,6 @@
 import persistence
+import database_common
+import psycopg2
 
 
 def get_card_status(status_id):
@@ -11,12 +13,16 @@ def get_card_status(status_id):
     return next((status['title'] for status in statuses if status['id'] == str(status_id)), 'Unknown')
 
 
-def get_boards():
-    """
-    Gather all boards
-    :return:
-    """
-    return persistence.get_boards(force=True)
+@database_common.connection_handler
+def get_boards(cursor):
+    cursor.execute("""SELECT boards.id as board_id, boards.title as board_title, cards.id AS card_id, 
+                        cards.board_id AS card_board_id, cards.title AS card_title, cards.status_id, cards.order_id
+                      FROM boards
+                      JOIN cards ON (boards.id=cards.board_id)""")
+    data = cursor.fetchall()
+
+    return data
+    # return persistence.get_boards(force=True)
 
 
 def get_cards_for_board(board_id):
