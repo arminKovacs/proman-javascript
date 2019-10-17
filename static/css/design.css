@@ -54,7 +54,7 @@ section.board{
 }
 
 .board-header{
-    height: 50px;
+    height: 58px;
     background: #fff;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
@@ -64,7 +64,7 @@ section.board{
     display: inline-block;
     font-size: 20px;
 }
-.board-title, .board-add, .board-toggle{
+.board-title, .board-add, .column-add .board-toggle{
     display: inline-block;
 }
 
@@ -105,7 +105,8 @@ section.board{
     color: #fff;
     border-radius: var(--border-radius);
     margin: 4px 0;
-    padding: 4px;
+    padding: 0px;
+    height: 25px;
 }
 
 .board-column:nth-of-type(1) .card{

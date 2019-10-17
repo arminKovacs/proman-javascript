@@ -29,10 +29,11 @@ export let dom = {
                 <section class="board">
                     <div class="board-header"><span class="board-title">${board.title}</span>
                         <button class="board-add">Add Card</button>
+                        <button id="board${board.id}-column-add" class="column-add">Add Column</button>
                         <button id="toggle${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div id="board-body${board.id}">
-                    <div class="board-columns">
+                    <div id="board${board.id}-column" class="board-columns">
                         <div class="board-column">
                             <div class="board-column-title">New</div>
                             <div class="board-column-content" id = "board-id-${board.id}-status-id-0"></div>
@@ -66,8 +67,18 @@ export let dom = {
         for (let board of boards) {
             let toggle = document.getElementById(`toggle${board.id}`);
             toggle.addEventListener("click", function () {
-                let boardBody = document.getElementById(`board-body${board.id}`);
                 $(`#board-body${board.id}`).fadeToggle();
+            });
+
+            let columnAdder = document.getElementById(`board${board.id}-column-add`);
+            columnAdder.addEventListener("click", function () {
+                let columnHtml = `
+                        <div class="board-column">
+                            <div class="board-column-title">Done</div>
+                            <div class="board-column-content" id = "board-id-${board.id}-status-id-3"></div>
+                        </div>`;
+                let columnContainer = document.getElementById(`board${board.id}-column`);
+                columnContainer.insertAdjacentHTML("beforeend", columnHtml)
             })
         }
     },
