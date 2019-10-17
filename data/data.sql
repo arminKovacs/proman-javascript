@@ -63,6 +63,9 @@ INSERT INTO statuses VALUES (0, 'new');
 INSERT INTO statuses VALUES (1, 'in progress');
 INSERT INTO statuses VALUES (2, 'testing');
 INSERT INTO statuses VALUES (3, 'done');
+INSERT INTO statuses VALUES (5, 'extra');
+INSERT INTO statuses VALUES (6, 'extra');
+INSERT INTO statuses VALUES (7, 'extra');
 
 INSERT INTO users VALUES (0, 'admin1', 'pbkdf2:sha256:150000$g984J6tx$d4d127de34cacddeb8c3cace3ee90251cf7ca09cdbbe8d08940adf6d0ee7e991');
 
