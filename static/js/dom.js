@@ -26,9 +26,12 @@ export let dom = {
 
         });
     },
+
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
+
             dom.showBoards(boards);
             for (let board of boards) {
                 let boardTitleToChange = $(`#bt-id-${board.id}`);
@@ -46,6 +49,7 @@ export let dom = {
                     <div class="board-header"><span class="board-title" id="bt-id-${board.id}">${board.title}</span>
                         <button class="board-add">Add Card</button>
                         <button id="board${board.id}-column-add" class="column-add">Add Column</button>
+                        <button id="board${board.id}-delete" class="delete-board">Delete board</button>
                         <button id="toggle${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div id="board-body${board.id}">
@@ -111,13 +115,20 @@ export let dom = {
         for (let card of cards) {
             let parentBoardColumn = document.querySelector(`#board-id-${card.board_id}-status-id-${card.status_id}`);
             let cardTemplate = `
-                <div class="card">
-                    <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+                <div id=card-id-${card.id} class="card">
+                    <div id="remove-card-id${card.id}" class="card-remove"><i class="fas fa-trash-alt"></i></div>
                     <div id="ct-id${card.id}" class="card-title">${card.title}</div>
                 </div>
                 `;
             parentBoardColumn.insertAdjacentHTML('beforeend', cardTemplate);
-        }
+            let deleteCardButton = document.getElementById(`remove-card-id${card.id}`);
+            deleteCardButton.addEventListener("click", function () {
+                dataHandler.deleteCard(`${card.id}`, function (response) {
+                        $(`#card-id-${response}`).fadeOut().remove();
+                        });
+                });
+            }
+
         // shows the cards of a board
         // it adds necessary event listeners also
     },

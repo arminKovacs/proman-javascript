@@ -75,6 +75,13 @@ def create_new_board():
     return render_template('/index.html')
 
 
+@app.route("/delete-card", methods=["GET", "POST"])
+def route_delete_card():
+    if request.method == 'POST':
+        card_id = json.loads(request.data)[0]
+        data_handler.delete_card(card_id)
+        return card_id
+
 @app.route('/login', methods=["GET", "POST"])
 def route_login():
     if request.method == "POST":

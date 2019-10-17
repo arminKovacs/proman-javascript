@@ -116,3 +116,13 @@ def update_chosen_title(cursor, board_title, board_id, table):
     """).format(board_title=sql.Literal(board_title),
                 board_id=sql.Literal(board_id),
                 table=sql.Identifier(table)))
+
+
+@database_common.connection_handler
+def delete_card(cursor, card_id):
+    cursor.execute(
+        sql.SQL("""DELETE FROM cards
+                   WHERE id = {card_id}
+                   """).format(card_id=sql.SQL(card_id))
+    )
+    return card_id

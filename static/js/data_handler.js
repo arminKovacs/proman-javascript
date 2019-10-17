@@ -80,6 +80,14 @@ export let dataHandler = {
         this._api_post('/change-board-title', boardData,  (postResponse) => {
            this._data = postResponse;
         });
+    },
+
+    deleteCard: function (cardID, callback) {
+        this._api_post('/delete-card', cardID, (response) => {
+            this._data = Response;
+            callback(response)
+        });
+
     }
     // here comes more features
 };
