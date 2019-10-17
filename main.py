@@ -47,7 +47,7 @@ def route_change_board_title():
         chosen_title = json.loads(request.data)[0]
         board_id = json.loads(request.data)[1]
         table = json.loads(request.data)[2]
-        return data_handler.update_chosen_title(chosen_title, int(board_id), table)
+        data_handler.update_chosen_title(chosen_title, int(board_id), table)
     return render_template('/index.html')
 
 
@@ -76,6 +76,7 @@ def route_delete_card():
         card_id = json.loads(request.data)[0]
         data_handler.delete_card(card_id)
         return card_id
+
 
 @app.route('/login', methods=["GET", "POST"])
 def route_login():

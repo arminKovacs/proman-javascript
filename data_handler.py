@@ -28,7 +28,7 @@ def get_boards(cursor, user):
     cursor.execute(
         sql.SQL("""SELECT * FROM boards
                    WHERE user_id ISNULL OR user_id = {userID}
-                   ;
+                   ORDER BY id;
                    """).format(userID=sql.Literal(actual_user_id))
     )
     data = cursor.fetchall()
