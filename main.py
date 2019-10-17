@@ -60,17 +60,12 @@ def get_cards_for_board(board_id: int):
     return data_handler.get_cards_for_board(board_id)
 
 
-@app.route("/get-latest-board-id")
-@json_response
-def get_latest_board_id():
-    return data_handler.get_latest_board_id()
-
-
 @app.route("/create-new-board", methods=['GET', 'POST'])
+@json_response
 def create_new_board():
     if request.method == 'POST':
         new_board_title = json.loads(request.data)
-        data_handler.insert_new_board(new_board_title)
+        return data_handler.insert_new_board(new_board_title)
     return render_template('/index.html')
 
 

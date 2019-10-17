@@ -28,7 +28,7 @@ def get_boards(cursor, user):
     cursor.execute(
         sql.SQL("""SELECT * FROM boards
                    WHERE user_id ISNULL OR user_id = {userID}
-                   ORDER BY id;
+                   ;
                    """).format(userID=sql.Literal(actual_user_id))
     )
     data = cursor.fetchall()
@@ -45,17 +45,6 @@ def get_board(cursor, board_id):
     board = cursor.fetchall()
 
     return board
-
-
-@database_common.connection_handler
-def get_latest_board_id(cursor):
-    cursor.execute(
-        sql.SQL("""SELECT MAX(id) FROM boards
-                """)
-    )
-    id = cursor.fetchone()
-
-    return id
 
 
 @database_common.connection_handler
@@ -105,6 +94,15 @@ def insert_new_board(cursor, board_title):
         sql.SQL("""INSERT INTO boards(title)
                    VALUES ({board_title});
     """).format(board_title=sql.Literal(board_title)))
+
+    cursor.execute(
+        sql.SQL("""SELECT MAX(id) FROM boards
+                """)
+    )
+
+    latest_id = cursor.fetchone()
+
+    return latest_id
 
 
 @database_common.connection_handler
