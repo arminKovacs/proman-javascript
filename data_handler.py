@@ -27,11 +27,35 @@ def get_boards(cursor, user):
 
     cursor.execute(
         sql.SQL("""SELECT * FROM boards
-                   WHERE user_id ISNULL OR user_id = {userID};
+                   WHERE user_id ISNULL OR user_id = {userID}
+                   ORDER BY id;
                    """).format(userID=sql.Literal(actual_user_id))
     )
     data = cursor.fetchall()
     return data
+
+
+@database_common.connection_handler
+def get_board(cursor, board_id):
+    cursor.execute(
+        sql.SQL("""SELECT * FROM boards
+                   WHERE id = {board_id}
+                """).format(board_id=sql.Literal(board_id)))
+
+    board = cursor.fetchall()
+
+    return board
+
+
+@database_common.connection_handler
+def get_latest_board_id(cursor):
+    cursor.execute(
+        sql.SQL("""SELECT MAX(id) FROM boards
+                """)
+    )
+    id = cursor.fetchone()
+
+    return id
 
 
 @database_common.connection_handler
@@ -74,11 +98,21 @@ def save_user_details(cursor, user_name, password):
                                password=sql.Literal(hashed_password))
     )
 
+
 @database_common.connection_handler
-def add_new_board_to_db(cursor, board_title):
+def insert_new_board(cursor, board_title):
     cursor.execute(
         sql.SQL("""INSERT INTO boards(title)
-                   VALUES ({board_title})
-        """).format(board_title=sql.Literal(board_title))
-    )
+                   VALUES ({board_title});
+    """).format(board_title=sql.Literal(board_title)))
 
+
+@database_common.connection_handler
+def update_chosen_title(cursor, board_title, board_id, table):
+    cursor.execute(
+        sql.SQL("""UPDATE {table}
+                   SET title = {board_title}
+                   WHERE id = {board_id};
+    """).format(board_title=sql.Literal(board_title),
+                board_id=sql.Literal(board_id),
+                table=sql.Identifier(table)))

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, request
 from flask import jsonify, Flask, render_template, url_for, request, redirect, session
 from util import json_response
+import json
 import psycopg2
 
 import data_handler
@@ -30,6 +31,26 @@ def get_boards():
     return data_handler.get_boards(user)
 
 
+@app.route("/get-board", methods=['GET', 'POST'])
+@json_response
+def get_board():
+    if request.method == 'POST':
+        new_board_id = json.loads(request.data)['max']
+        return data_handler.get_board(int(new_board_id))
+    return render_template('/index.html')
+
+
+@app.route("/change-board-title", methods=['GET', 'POST'])
+@json_response
+def route_change_board_title():
+    if request.method == 'POST':
+        chosen_title = json.loads(request.data)[0]
+        board_id = json.loads(request.data)[1]
+        table = json.loads(request.data)[2]
+        return data_handler.update_chosen_title(chosen_title, int(board_id), table)
+    return render_template('/index.html')
+
+
 @app.route("/get-cards/<int:board_id>")
 @json_response
 def get_cards_for_board(board_id: int):
@@ -40,10 +61,18 @@ def get_cards_for_board(board_id: int):
     return data_handler.get_cards_for_board(board_id)
 
 
+@app.route("/get-latest-board-id")
+@json_response
+def get_latest_board_id():
+    return data_handler.get_latest_board_id()
+
+
 @app.route("/create-new-board", methods=['GET', 'POST'])
 def create_new_board():
-    board_title = request.form['board-name']
-    return data_handler.add_new_board_to_db(board_title)
+    if request.method == 'POST':
+        new_board_title = json.loads(request.data)
+        data_handler.insert_new_board(new_board_title)
+    return render_template('/index.html')
 
 
 @app.route('/login', methods=["GET", "POST"])

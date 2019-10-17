@@ -19,6 +19,13 @@ export let dataHandler = {
     _api_post: function (url, data, callback) {
         // it is not called from outside
         // sends the data to the API, and calls callback function
+        fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())  // parse the response as JSON
+        .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
     init: function () {
     },
@@ -34,6 +41,10 @@ export let dataHandler = {
     },
     getBoard: function (boardId, callback) {
         // the board is retrieved and then the callback function is called with the board
+        this._api_post('/get-board', boardId, (response) => {
+           this._data = response;
+            callback(response);
+        });
     },
     getStatuses: function (callback) {
         // the statuses are retrieved and then the callback function is called with the statuses
@@ -53,9 +64,22 @@ export let dataHandler = {
     },
     createNewBoard: function (boardTitle, callback) {
         // creates new board, saves it and calls the callback function with its data
+        this._api_post('/create-new-board', boardTitle, (postResponse) => {
+           this._data = postResponse;
+        });
+        this._api_get('/get-latest-board-id', (response) => {
+            this._data = response;
+            callback(response);
+        })
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
+    },
+    changeBoardTitle: function (boardTitle, boardId, table) {
+        let boardData = [boardTitle, boardId, table];
+        this._api_post('/change-board-title', boardData,  (postResponse) => {
+           this._data = postResponse;
+        });
     }
     // here comes more features
 };
