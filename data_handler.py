@@ -27,7 +27,8 @@ def get_boards(cursor, user):
 
     cursor.execute(
         sql.SQL("""SELECT * FROM boards
-                   WHERE user_id ISNULL OR user_id = {userID};
+                   WHERE user_id ISNULL OR user_id = {userID}
+                   ORDER BY id;
                    """).format(userID=sql.Literal(actual_user_id))
     )
     data = cursor.fetchall()
@@ -55,6 +56,7 @@ def get_latest_board_id(cursor):
     id = cursor.fetchone()
 
     return id
+
 
 @database_common.connection_handler
 def get_cards_for_board(cursor, board_id):
@@ -96,9 +98,20 @@ def save_user_details(cursor, user_name, password):
                                password=sql.Literal(hashed_password))
     )
 
+
 @database_common.connection_handler
 def insert_new_board(cursor, board_title):
     cursor.execute(
         sql.SQL("""INSERT INTO boards(title)
                    VALUES ({board_title});
     """).format(board_title=sql.Literal(board_title)))
+
+
+@database_common.connection_handler
+def update_chosen_title(cursor, board_title, board_id):
+    cursor.execute(
+        sql.SQL("""UPDATE boards
+                   SET title = {board_title}
+                   WHERE id = {board_id};
+    """).format(board_title=sql.Literal(board_title),
+                board_id=sql.Literal(board_id)))

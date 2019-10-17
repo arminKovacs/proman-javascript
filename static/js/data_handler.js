@@ -66,7 +66,6 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
         this._api_post('/create-new-board', boardTitle, (postResponse) => {
            this._data = postResponse;
-
         });
         this._api_get('/get-latest-board-id', (response) => {
             this._data = response;
@@ -75,6 +74,12 @@ export let dataHandler = {
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
+    },
+    changeBoardTitle: function (boardTitle, boardId) {
+        let boardData = [boardTitle, boardId];
+        this._api_post('/change-board-title', boardData,  (postResponse) => {
+           this._data = postResponse;
+        });
     }
     // here comes more features
 };

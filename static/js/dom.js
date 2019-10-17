@@ -30,6 +30,10 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
+            for (let board of boards) {
+                let boardTitleToChange = $(`#bt-id-${board.id}`);
+                dom.clickBoardTitle(boardTitleToChange, board.title, board.id);
+            }
         });
     },
     showBoards: function (boards) {
@@ -39,7 +43,7 @@ export let dom = {
         for (let board of boards) {
             boardList += `
                <section class="board">
-                    <div class="board-header"><span class="board-title">${board.title}</span>
+                    <div class="board-header"><span class="board-title" id="bt-id-${board.id}">${board.title}</span>
                         <button class="board-add">Add Card</button>
                         <button id="toggle${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
@@ -65,7 +69,6 @@ export let dom = {
                     </div>
                 </section>`;
             dom.loadCards(board.id);
-
         }
         const outerHtml = `
             <ul class="board-container">
@@ -103,5 +106,23 @@ export let dom = {
         // shows the cards of a board
         // it adds necessary event listeners also
     },
+    clickBoardTitle : function (titleToChange, originalTitle, boardId) {
+        var chosenTitle = 'in func';
+        titleToChange.bind('dblclick', function () {
+            $(this).attr('contentEditable', true);
+        }).blur(
+            function () {
+                if (confirm('Are you sure you want to change?')){
+                    chosenTitle = titleToChange.html();
+                    dataHandler.changeBoardTitle(chosenTitle, boardId)
+                } else {
+                    chosenTitle = originalTitle;
+                    dataHandler.changeBoardTitle(chosenTitle, boardId)
+                }
+                $(this).attr('contentEditable', false);
+                return chosenTitle
+            });
+        return chosenTitle
+    }
     // here comes more features
 };

@@ -40,6 +40,16 @@ def get_board():
     return render_template('/index.html')
 
 
+@app.route("/change-board-title", methods=['GET', 'POST'])
+@json_response
+def route_change_board_title():
+    if request.method == 'POST':
+        chosen_title = json.loads(request.data)[0]
+        board_id = json.loads(request.data)[1]
+        return data_handler.update_chosen_title(chosen_title, int(board_id))
+    return render_template('/index.html')
+
+
 @app.route("/get-cards/<int:board_id>")
 @json_response
 def get_cards_for_board(board_id: int):
