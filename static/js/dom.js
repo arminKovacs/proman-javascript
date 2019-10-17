@@ -3,18 +3,6 @@ import {dataHandler} from "./data_handler.js";
 
 export let dom = {
     init: function () {
-        let createBoardBtn = document.getElementById('create-board');
-        createBoardBtn.addEventListener('click', function () {
-            dataHandler.getBoards(function (boards) {
-                let newBoardTitle = 'Board ' + (boards.length + 1);
-                dataHandler.createNewBoard(newBoardTitle, function (newBoardId) {
-                    dataHandler.getBoard(newBoardId, function (boardToShow) {
-                            console.log(boardToShow);
-                        dom.showBoards(boardToShow);
-                    })
-                });
-            });
-        });
         $("#logout").on("click", function () {
             sessionStorage.clear();
         });
@@ -24,6 +12,17 @@ export let dom = {
         $("#nav-container").on("mouseenter", function (navbar) {
             $("#nav-container").animate({opacity: 0.7})
 
+        });
+        let createBoardBtn = document.getElementById('create-board');
+        createBoardBtn.addEventListener('click', function () {
+            dataHandler.getBoards(function (boardsForLength) {
+                let newBoardTitle = 'Board ' + (boardsForLength.length + 1);
+                dataHandler.createNewBoard(newBoardTitle, async function (newBoardId) {
+                    dataHandler.getBoard(await newBoardId, function (boardToShow) {
+                        dom.showBoards(boardToShow);
+                    })
+                });
+            });
         });
     },
 
