@@ -22,7 +22,10 @@ export let dataHandler = {
         fetch(url, {
             method: 'POST',
             credentials: 'same-origin',
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type" : "application/json"
+            }
         })
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));  // Call the `callback` with the returned object

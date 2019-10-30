@@ -46,9 +46,9 @@ export let dom = {
             boardList += `
                <section class="board">
                     <div class="board-header"><span class="board-title" id="bt-id-${board.id}">${board.title}</span>
-                        <button class="board-add">Add Card</button>
+                        <button class="board-add" disabled style="opacity: 0.5">Add Card</button>
                         <button id="board${board.id}-column-add" class="column-add">Add Column</button>
-                        <button id="board${board.id}-delete" class="delete-board">Delete board</button>
+                        <button id="board${board.id}-delete" class="delete-board" disabled style="opacity: 0.5">Delete board</button>
                         <button id="toggle${board.id}" class="board-toggle"><i class="fas fa-chevron-down"></i></button>
                     </div>
                     <div id="board-body${board.id}">

@@ -65,7 +65,7 @@ def get_cards_for_board(board_id: int):
 @json_response
 def create_new_board():
     if request.method == 'POST':
-        new_board_title = json.loads(request.data)
+        new_board_title = request.json
         return data_handler.insert_new_board(new_board_title)
     return render_template('/index.html')
 
