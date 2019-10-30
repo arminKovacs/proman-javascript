@@ -133,6 +133,7 @@ export let dom = {
     },
     clickBoardTitle : function (titleToChange, originalTitle, boardId, table="boards") {
         var chosenTitle = 'in func';
+
         titleToChange.bind('dblclick', function () {
             $(this).attr('contentEditable', true);
         }).blur(
@@ -148,7 +149,6 @@ export let dom = {
                 return chosenTitle
             });
         return chosenTitle
-    }
-
+    },
     // here comes more features
 };
