@@ -125,6 +125,14 @@ def get_current_user():
     return jsonify(user=user)
 
 
+@app.route("/card/", methods=['POST'])
+@json_response
+def create_card():
+    req = request.get_json()
+    board_id = req['boardId']
+    return data_handler.add_new_card(board_id)
+
+
 def main():
     app.run(debug=True)
 

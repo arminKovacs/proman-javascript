@@ -135,3 +135,15 @@ def delete_card(cursor, card_id):
                    """).format(card_id=sql.SQL(card_id))
     )
     return card_id
+
+
+@database_common.connection_handler
+def add_new_card(cursor, board_id):
+    cursor.execute(
+                    """INSERT INTO cards (board_id, title, status_id)
+                    VALUES (%s, 'new card', '0') RETURNING id""", (board_id,))
+    card_id = cursor.fetchone()['id']
+
+    cursor.execute("""SELECT * FROM cards
+                      WHERE id = %s""", (card_id,))
+    return cursor.fetchall()
