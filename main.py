@@ -27,7 +27,7 @@ def get_boards():
     """
     All the boards
     """
-    user = get_user()
+    user = get_user()[0]
     return data_handler.get_boards(user)
 
 
@@ -84,8 +84,9 @@ def route_login():
         user_name = request.form["userName"]
         password = request.form["password"]
         if data_handler.check_user_login(user_name, password):
+            user_id = data_handler.get_user_id_by_user_name(user_name)
             session["user"] = user_name
-
+            session["user_id"] = user_id
             return redirect(url_for("index"))
         else:
             error_message = "Wrong login details. Please try again."
@@ -111,15 +112,17 @@ def route_registration():
 def get_user():
     if session.get("user"):
         user = session["user"]
+        user_id = session["user_id"]
     else:
         user = ""
-    return user
+        user_id = ""
+    return [user, user_id]
 
 
 @app.route('/get_current_user')
 def get_current_user():
-    username = get_user()
-    return jsonify(username=username)
+    user = get_user()
+    return jsonify(user=user)
 
 
 def main():

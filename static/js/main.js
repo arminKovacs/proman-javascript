@@ -26,9 +26,11 @@ function checkForUser() {
             type: "GET",
             url: "/get_current_user",
             success: function (user) {
-                if (user.username) {
-                    sessionStorage.setItem("user", user.username);
-                    setPageIfLoggedIn(user.username);
+                console.log(user)
+            if (user['user'][0]) {
+                    sessionStorage.setItem("user", user['user'][0]);
+                    sessionStorage.setItem("user_id", user['user'][1]);
+                    setPageIfLoggedIn(user[0]);
                 }
 
             }

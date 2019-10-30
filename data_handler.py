@@ -67,6 +67,17 @@ def check_user_login(user_name, user_input_password):
 
 
 @database_common.connection_handler
+def get_user_id_by_user_name(cursor, user_name):
+    cursor.execute(
+        sql.SQL("""SELECT users.id FROM users
+                    WHERE users.username = {user_name};""").format(user_name=sql.Literal(user_name))
+    )
+    data = cursor.fetchone()
+    return data['id']
+
+
+
+@database_common.connection_handler
 def get_user_stored_password(cursor, user_name):
     cursor.execute(
         sql.SQL("""SELECT password FROM users
