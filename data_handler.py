@@ -67,6 +67,17 @@ def check_user_login(user_name, user_input_password):
 
 
 @database_common.connection_handler
+def get_user_id_by_user_name(cursor, user_name):
+    cursor.execute(
+        sql.SQL("""SELECT users.id FROM users
+                    WHERE users.username = {user_name};""").format(user_name=sql.Literal(user_name))
+    )
+    data = cursor.fetchone()
+    return data['id']
+
+
+
+@database_common.connection_handler
 def get_user_stored_password(cursor, user_name):
     cursor.execute(
         sql.SQL("""SELECT password FROM users
@@ -89,11 +100,12 @@ def save_user_details(cursor, user_name, password):
 
 
 @database_common.connection_handler
-def insert_new_board(cursor, board_title):
+def insert_new_board(cursor, board_data):
     cursor.execute(
-        sql.SQL("""INSERT INTO boards(title)
-                   VALUES ({board_title});
-    """).format(board_title=sql.Literal(board_title)))
+        sql.SQL("""INSERT INTO boards(title, user_id)
+                   VALUES ({board_title}, {user_id});
+    """).format(board_title=sql.Literal(board_data[0]),
+                user_id=sql.Literal(board_data[1])))
 
     cursor.execute(
         sql.SQL("""SELECT MAX(id) FROM boards
@@ -124,3 +136,15 @@ def delete_card(cursor, card_id):
                    """).format(card_id=sql.SQL(card_id))
     )
     return card_id
+
+
+@database_common.connection_handler
+def add_new_card(cursor, board_id):
+    cursor.execute(
+                    """INSERT INTO cards (board_id, title, status_id)
+                    VALUES (%s, 'new card', '0') RETURNING id""", (board_id,))
+    card_id = cursor.fetchone()['id']
+
+    cursor.execute("""SELECT * FROM cards
+                      WHERE id = %s""", (card_id,))
+    return cursor.fetchall()
